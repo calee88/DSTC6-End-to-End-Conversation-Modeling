@@ -4,6 +4,9 @@
 # edit ./path.sh according to your environment
 . path.sh
 
+# unbuffer
+export PYTHONUNBUFFERED=1
+
 ## configuration for the experiment
 # the following variables can be changed by options like
 # run.sh --<variable_name> value ...

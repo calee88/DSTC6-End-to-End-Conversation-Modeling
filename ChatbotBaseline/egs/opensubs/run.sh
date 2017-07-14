@@ -36,6 +36,7 @@ max_batch_length=10  # batch size is automatically reduced if the seuence length
                      # exceeds this number in each minibatch.
 optimizer=Adam       # specify an optimizer
 dropout=0.5          # set a dropout ratio
+learn_decay=1.0      # learning rate decay
 
 ## evaluation paramaters
 beam=5       # beam width for the beam search
@@ -72,7 +73,7 @@ fi
 set -e
 set -u
 set -o pipefail
-#set -x
+set -x
 
 mkdir -p $expdir
 
@@ -101,7 +102,8 @@ if [ $stage -le 1 ]; then
       --dec-hsize $dec_hsize \
       --dec-psize $dec_psize \
       --dropout $dropout \
-      --logfile ${expdir}/train.log
+      --logfile ${expdir}/train.log \
+      --learn-decay $learn_decay
 fi
 
 # evaluation

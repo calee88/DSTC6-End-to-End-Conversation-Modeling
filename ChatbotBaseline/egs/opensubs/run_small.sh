@@ -56,7 +56,7 @@ eval_data=${CHATBOT_DATADIR}/opensubs_small_data_eval.txt
 . utils/parse_options.sh || exit 1;
 
 ## output directory (models and results will be stored in this directory)
-expdir=./exp/${modeltype}_${optimizer}_ee${enc_esize}_eh${enc_hsize}_de${dec_esize}_dh${dec_hsize}_dp${dec_psize}_bs${batch_size}_dr${dropout}_ld${learn_decay}
+expdir=./exp/${modeltype}_${optimizer}_ee${enc_esize}_eh${enc_hsize}_de${dec_esize}_dh${dec_hsize}_dp${dec_psize}_bs${batch_size}_dr${dropout}_ld${learn_decay}_small
 
 ## command settings
 # if 'use_slurm' is true, it throws jobs to the specified queue of slurm

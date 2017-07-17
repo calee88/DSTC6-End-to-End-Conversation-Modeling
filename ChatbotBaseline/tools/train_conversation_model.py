@@ -308,7 +308,7 @@ def main():
         if args.optimizer == 'SGD':
             logger.info('Epoch %d : SGD learning rate = %g' % (status.epoch, optimizer.lr))
         else:
-            logger.info('Epoch %d : %s eps = %g' % (status.epoch, args.optimizer, optimizer.eps))
+            logger.info('Epoch %d : %s eps = %g, alpha = %g' % (status.epoch, args.optimizer, optimizer.eps, optimizer.alpha))
         train_ppl = train_step(model, optimizer, train_set, train_batchset, status, xp)
         logger.info("epoch %d training perplexity: %f" % (status.epoch, train_ppl))
         # write the model params
@@ -343,6 +343,7 @@ def main():
                 break
             optimizer.setup(model)
         else:
+            optimizer.alpha *= args.learn_decay
             optimizer.eps *= args.learn_decay
             if optimizer.eps < args.lower_bound:
                 break

@@ -24,14 +24,14 @@ from chainer import cuda
 from chainer import optimizers
 import pickle
 import logging
-from tools import tqdm_logging
+import tqdm_logging
 from tqdm import tqdm
 
-from tools.lstm_encoder import LSTMEncoder
-from tools.lstm_decoder import LSTMDecoder
-from tools.seq2seq_model import Sequence2SequenceModel
+from lstm_encoder import LSTMEncoder
+from lstm_decoder import LSTMDecoder
+from seq2seq_model import Sequence2SequenceModel
 
-from tools import dialog_corpus
+import dialog_corpus
 
 # user the root logger
 logger = logging.getLogger("root")

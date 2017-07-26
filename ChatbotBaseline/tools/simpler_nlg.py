@@ -2,6 +2,7 @@ NO_SPACE_BEFORE_WORDS = [".", ",", "'", "", "?"]
 CAPITALIZE_WORDS = ["i"]
 NO_SPACE_AFTER_APOSTROPHE = ["s", "t", "ll", "m", "re", "d"]
 
+NO_SPACE_BEFORE_WORDS += ["'" + word for word in NO_SPACE_AFTER_APOSTROPHE]
 
 class SimplerNLG:
     def __init__(self):

@@ -20,6 +20,7 @@ import numpy as np
 import chainer
 from chainer import cuda
 from nltk.tokenize import casual_tokenize
+from simpler_nlg import SimplerNLG
 
 ##################################
 # main
@@ -83,24 +84,32 @@ if __name__ =="__main__":
 
             x_data = np.array(sentence, dtype=np.int32)
             x = chainer.Variable(xp.asarray(x_data))
-            besthyps,state = model.generate(state, x, eos, eos, unk=unk, 
+            besthyps,state = model.generate(None, x, eos, eos, unk=unk, 
                                      maxlen=args.maxlen,
                                      beam=args.beam, 
                                      penalty=args.penalty,
                                      nbest=args.nbest)
+            
+        
             ## print sentence
             if args.nbest == 1:
-                sys.stdout.write('S:')
+                reply = []
+                sys.stdout.write('S: ')
                 for w in besthyps[0][0]:
                     if w != eos:
-                        sys.stdout.write(' ' + vocablist[w])
+                        reply.append(vocablist[w])
+                reply = SimplerNLG.realise(reply)
+                sys.stdout.write(reply)
                 sys.stdout.write('\n')
             else:    
                 for n,s in enumerate(besthyps):
-                    sys.stdout.write('S%d:' % n)
+                    reply = []
+                    sys.stdout.write('S%d: ' % n)
                     for w in s[0]:
                         if w != eos:
-                            sys.stdout.write(' ' + vocablist[w])
+                            reply.append(vocablist[w])
+                    reply = SimplerNLG.realise(reply)
+                    sys.stdout.write(reply)
                     sys.stdout.write(' (%f)' % s[1])
         else:
             print("--- start conversation [push Cntl-D to exit] ------")

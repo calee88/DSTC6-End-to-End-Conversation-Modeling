@@ -194,6 +194,8 @@ def main():
     # training conditions
     parser.add_argument('--optimizer', default='Adam', type=str,
                         help="set optimizer (SGD, Adam, AdaDelta, RMSprop, ...)")
+    parser.add_argument('--beta1', default=0.9, type=float,
+                        help="set beta1 of Adam optimizer")
     parser.add_argument('--L2-weight', default=0.0, type=float,
                         help="set weight for L2-regularization term")
     parser.add_argument('--clip-grads', default=5., type=float,
@@ -279,6 +281,8 @@ def main():
         optimizer.add_hook(chainer.optimizer.GradientClipping(args.clip_grads))
         if args.L2_weight > 0.:
             optimizer.add_hook(chainer.optimizer.WeightDecay(args.L2_weight))
+        if args.optimizer == 'Adam':
+            optimizer.beta1 = args.beta1
         status = None
 
     logger.info('Loading text data from ' + args.train)

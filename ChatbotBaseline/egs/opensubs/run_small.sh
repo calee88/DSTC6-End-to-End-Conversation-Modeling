@@ -39,7 +39,8 @@ max_batch_length=10  # batch size is automatically reduced if the seuence length
                      # exceeds this number in each minibatch.
 optimizer=Adam       # specify an optimizer
 dropout=0.5          # set a dropout ratio
-learn_decay=1.0      # learning rate decay
+learn_decay=0.5      # learning rate decay
+beta1=0.9            # Adam beta1
 
 ## evaluation paramaters
 beam=5       # beam width for the beam search
@@ -56,7 +57,7 @@ eval_data=${CHATBOT_DATADIR}/opensubs_small_data_eval.txt
 . utils/parse_options.sh || exit 1;
 
 ## output directory (models and results will be stored in this directory)
-expdir=./exp/${modeltype}_${optimizer}_ee${enc_esize}_eh${enc_hsize}_de${dec_esize}_dh${dec_hsize}_dp${dec_psize}_bs${batch_size}_dr${dropout}_ld${learn_decay}_small
+expdir=./exp/${modeltype}_${optimizer}_ee${enc_esize}_eh${enc_hsize}_de${dec_esize}_dh${dec_hsize}_dp${dec_psize}_bs${batch_size}_dr${dropout}_ld${learn_decay}_b1${beta1}_small
 
 ## command settings
 # if 'use_slurm' is true, it throws jobs to the specified queue of slurm
@@ -106,7 +107,8 @@ if [ $stage -le 1 ]; then
       --dec-psize $dec_psize \
       --dropout $dropout \
       --logfile ${expdir}/train.log \
-      --learn-decay $learn_decay
+      --learn-decay $learn_decay \
+      --beta1 $beta1
 fi
 
 # evaluation

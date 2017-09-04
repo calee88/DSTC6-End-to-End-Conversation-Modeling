@@ -24,14 +24,14 @@ from chainer import cuda
 from chainer import optimizers
 import pickle
 import logging
-import tqdm_logging
+from tools import tqdm_logging
 from tqdm import tqdm
 
-from lstm_encoder import LSTMEncoder
-from lstm_decoder import LSTMDecoder
-from seq2seq_model import Sequence2SequenceModel
+from tools.lstm_encoder import LSTMEncoder
+from tools.lstm_decoder import LSTMDecoder
+from tools.seq2seq_model import Sequence2SequenceModel
 
-import dialog_corpus
+from tools import dialog_corpus
 
 # user the root logger
 logger = logging.getLogger("root")
@@ -313,7 +313,7 @@ def main():
         if args.optimizer == 'SGD':
             logger.info('Epoch %d : SGD learning rate = %g' % (status.epoch, optimizer.lr))
         else:
-            logger.info('Epoch %d : %s eps = %g' % (status.epoch, args.optimizer, optimizer.eps))
+            logger.info('Epoch %d : %s eps = %g, alpha = %g' % (status.epoch, args.optimizer, optimizer.eps, optimizer.alpha))
         train_ppl = train_step(model, optimizer, train_set, train_batchset, status, xp)
         logger.info("epoch %d training perplexity: %f" % (status.epoch, train_ppl))
         # write the model params
@@ -350,6 +350,7 @@ def main():
             impatience += 1
             logger.info('[ Increase impatience %d ]' % impatience)
         else:
+            optimizer.alpha *= args.learn_decay
             optimizer.eps *= args.learn_decay
             if optimizer.eps < args.lower_bound:
                 break

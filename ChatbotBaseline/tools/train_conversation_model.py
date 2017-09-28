@@ -319,6 +319,7 @@ def main():
         else:
             logger.info('Epoch %d : %s eps = %g, alpha = %g' % (status.epoch, args.optimizer, optimizer.eps, optimizer.alpha))
         train_ppl = train_step(model, optimizer, train_set, train_batchset, status, xp)
+        random.shuffle(train_batchset, random.random)
         logger.info("epoch %d training perplexity: %f" % (status.epoch, train_ppl))
         # write the model params
         modelfile = args.model + '.' + str(status.epoch)
